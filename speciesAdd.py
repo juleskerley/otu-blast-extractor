@@ -1,4 +1,3 @@
-
 # Goal is to get the mussels that are in blastn_Pfa1.tsv
 #  appended onto the Pfa-otu_table.tsv.
 # If the species (column 1) exists in Pfa-out_table (column 1),
@@ -52,7 +51,6 @@ def main():
     # Setting the genome to be the index of the table
     pfa_otu_table.set_index('genome',inplace=True)
 
-
     # List for appending
     newColumnData = []
 
@@ -85,16 +83,10 @@ def main():
     pfa_otu_table['extracted'] = newColumnData
     
     # Creating the .tsv to make use of the results.
-    pfa_otu_table.to_csv(path_or_buf="{0}-extracted.tsv".format(otuFile),sep='\t')
+    pfa_otu_table.to_csv(path_or_buf="{0}-extracted.tsv".format(otuFile),
+                         sep='\t')
     
     return
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     main()
