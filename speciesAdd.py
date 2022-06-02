@@ -9,6 +9,10 @@
 #  species (some of which are not in Pfa-otu_table.tsv),
 #  so an exhaustive search on it should get everything.
 
+# NOTE: This script assumes that the blast and otu file are in the same
+#       directory as it. If it is not, then you can either move the script or
+#       change the names of blastFile and otuFile to fit the file location
+
 import pandas as pd
 
 def main():
@@ -55,17 +59,24 @@ def main():
     # For each item in genome column of Pfa, get all instances of genome in
     # blastn and insert "taxonomic-name" and "description" onto the particular
     # item. 
-    for candidate in pfa_otu_table.index:    
+    for candidate in pfa_otu_table.index:
+        # Creating the list from a filtered search of a particular genome
         extractedList = blastn_pfa1.filter(regex="^{0}".format(candidate), axis=0)[
             ['taxonomic-name','description']
             ].drop_duplicates(subset='taxonomic-name').values.flatten().tolist()
-        print(candidate, extractedList)
+        # Debug output
+        #print(candidate, extractedList)
+        
+        # Joining the list with commas for the convenience of using Excel
+        # Also, this converts it into a string
         extractedString = ','.join(extractedList)
+        #Adding the string to a list
         newColumnData.append(extractedString)
     
-    # Adding extracted to otu table
+    # Adding extracted data to otu table
     pfa_otu_table['extracted'] = newColumnData
     
+    # Creating the .tsv to make use of the results.
     pfa_otu_table.to_csv(path_or_buf="{0}-extracted.tsv".format(otuFile),sep='\t')
     
     return
