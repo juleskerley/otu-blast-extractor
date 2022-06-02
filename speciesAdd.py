@@ -60,12 +60,20 @@ def main():
     # blastn and insert "taxonomic-name" and "description" onto the particular
     # item. 
     for candidate in pfa_otu_table.index:
+        # Filtering the blast file for the candidate genome
+        # This is possibly empty but that is okay
+        filtered_result = blastn_pfa1.filter(regex="^{0}".format(candidate),
+                                             axis=0)
+        # Removing the duplicate entries 
+        filtered_result = filtered_result[[
+            'taxonomic-name','description'
+            ]].drop_duplicates(subset='taxonomic-name')
         # Creating the list from a filtered search of a particular genome
-        extractedList = blastn_pfa1.filter(regex="^{0}".format(candidate), axis=0)[
-            ['taxonomic-name','description']
-            ].drop_duplicates(subset='taxonomic-name').values.flatten().tolist()
+        extractedList = filtered_result[[
+            'taxonomic-name','description']].values.flatten().tolist()
+        
         # Debug output
-        #print(candidate, extractedList)
+        print(candidate, extractedList)
         
         # Joining the list with commas for the convenience of using Excel
         # Also, this converts it into a string
