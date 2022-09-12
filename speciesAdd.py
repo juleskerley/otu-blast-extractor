@@ -19,7 +19,7 @@ def main():
     blastFile = "blastn_Pfa1"
     # File to extract into without file extension
     otuFile = "Pfa-otu_table"
-    
+
     # Opening the blast file
     blastn_pfa1 =  pd.read_table(blastFile+".tsv",delimiter='\t',
                                  header=None)
@@ -36,7 +36,7 @@ def main():
     blastn_pfa1.rename(columns={18 : 'common-name'},inplace=True)
     blastn_pfa1.rename(columns={19 : 'description'},inplace=True)
     blastn_pfa1.set_index('genome-publicdb',inplace=True)
-    
+
     # Taking the header out first to do some work to make it better
     with open(otuFile+".tsv") as f:
         # Create a string with all the modifications needed to properly become
@@ -56,36 +56,36 @@ def main():
 
     # For each item in genome column of Pfa, get all instances of genome in
     # blastn and insert "taxonomic-name" and "description" onto the particular
-    # item. 
+    # item.
     for candidate in pfa_otu_table.index:
         # Filtering the blast file for the candidate genome
         # This is possibly empty but that is okay
         filtered_result = blastn_pfa1.filter(regex="^{0}".format(candidate),
                                              axis=0)
-        # Removing the duplicate entries 
+        # Removing the duplicate entries
         filtered_result = filtered_result[[
             'taxonomic-name','description'
             ]].drop_duplicates(subset='taxonomic-name')
         # Creating the list from a filtered search of a particular genome
         extractedList = filtered_result[[
             'taxonomic-name','description']].values.flatten().tolist()
-        
+
         # Debug output
         print(candidate, extractedList)
-        
+
         # Joining the list with commas for the convenience of using Excel
         # Also, this converts it into a string
         extractedString = ','.join(extractedList)
         #Adding the string to a list
         newColumnData.append(extractedString)
-    
+
     # Adding extracted data to otu table
     pfa_otu_table['extracted'] = newColumnData
-    
+
     # Creating the .tsv to make use of the results.
     pfa_otu_table.to_csv(path_or_buf="{0}-extracted.tsv".format(otuFile),
                          sep='\t')
-    
+
     return
 
 if __name__ == "__main__":
