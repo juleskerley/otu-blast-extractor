@@ -14,6 +14,10 @@
 
 import pandas as pd
 
+def column_to_index(column):
+  """Converts an Excel-style column letter to a Pandas column index"""
+  return return string.ascii_uppercase.index(column)
+
 def main():
     # File to extract from without file extension
     blastFile = "blastn_Pfa1"
@@ -31,10 +35,12 @@ def main():
 
     # Renaming several columns for future table referencing
     # Chnage column number if these are placed differently
-    blastn_pfa1.rename(columns={0 : 'genome-publicdb'},inplace=True)
-    blastn_pfa1.rename(columns={17 : 'taxonomic-name'},inplace=True)
-    blastn_pfa1.rename(columns={18 : 'common-name'},inplace=True)
-    blastn_pfa1.rename(columns={19 : 'description'},inplace=True)
+    # May be numbers or use column_to_index function for using
+    # Excel Letter columns; whichever is easier.
+    blastn_pfa1.rename(columns={column_to_index('A') : 'genome-publicdb'},inplace=True)
+    blastn_pfa1.rename(columns={column_to_index('R') : 'taxonomic-name'},inplace=True)
+    blastn_pfa1.rename(columns={column_to_index('S') : 'common-name'},inplace=True)
+    blastn_pfa1.rename(columns={column_to_index('T') : 'description'},inplace=True)
     blastn_pfa1.set_index('genome-publicdb',inplace=True)
 
     # Taking the header out first to do some work to make it better
