@@ -42,7 +42,7 @@ def main():
     blastn_pfa1.rename(columns={column_to_index('R') : 'taxonomic-name'},inplace=True)
     blastn_pfa1.rename(columns={column_to_index('S') : 'common-name'},inplace=True)
     blastn_pfa1.rename(columns={column_to_index('T') : 'description'},inplace=True)
-    blastn_pfa1.set_index('genome-publicdb',inplace=True)
+    blastn_pfa1.set_index('otu-id',inplace=True)
 
     # Taking the header out first to do some work to make it better
     with open(otuFile+".tsv") as f:
@@ -82,7 +82,7 @@ def main():
 
         # Joining the list with commas for the convenience of using Excel
         # Also, this converts it into a string
-        extractedString = ','.join(extractedList)
+        extractedString = ','.join(map(str, extractedList))
         #Adding the string to a list
         newColumnData.append(extractedString)
 
