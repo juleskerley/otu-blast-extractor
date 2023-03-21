@@ -38,7 +38,7 @@ def main():
     # Change column number if these are placed differently
     # May be numbers or use column_to_index function for using
     # Excel Letter columns; whichever is easier.
-    blastn_pfa1.rename(columns={column_to_index('A') : 'genome-publicdb'},inplace=True)
+    blastn_pfa1.rename(columns={column_to_index('A') : 'otu-id'},inplace=True)
     blastn_pfa1.rename(columns={column_to_index('R') : 'taxonomic-name'},inplace=True)
     blastn_pfa1.rename(columns={column_to_index('S') : 'common-name'},inplace=True)
     blastn_pfa1.rename(columns={column_to_index('T') : 'description'},inplace=True)
