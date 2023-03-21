@@ -13,6 +13,7 @@
 #       change the names of blastFile and otuFile to fit the file location
 
 import pandas as pd
+import string
 
 def column_to_index(column):
   """Converts an Excel-style column letter to a Pandas column index"""
