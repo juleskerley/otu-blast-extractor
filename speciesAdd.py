@@ -1,7 +1,7 @@
 # Goal is to get the mussels that are in blastn_Pfa1.tsv
 #  appended onto the Pfa-otu_table.tsv.
 # If the species (column 1) exists in Pfa-out_table (column 1),
-#  then it needs every muscle (column 18 & 22) appended onto
+#  then it needs every mussels (column 18 & 22) appended onto
 #  the row of the particular species .
 # It is okay to append 18 and 22 each time. The redundancy is acceptable.
 # blastn_Pfa1.tsv is the "longer" file that verbosely has every
@@ -34,7 +34,7 @@ def main():
     blastn_pfa1.drop(labels=1,axis=1,inplace=True)
 
     # Renaming several columns for future table referencing
-    # Chnage column number if these are placed differently
+    # Change column number if these are placed differently
     # May be numbers or use column_to_index function for using
     # Excel Letter columns; whichever is easier.
     blastn_pfa1.rename(columns={column_to_index('A') : 'genome-publicdb'},inplace=True)
