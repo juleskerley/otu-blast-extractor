@@ -16,7 +16,7 @@ import pandas as pd
 
 def column_to_index(column):
   """Converts an Excel-style column letter to a Pandas column index"""
-  return return string.ascii_uppercase.index(column)
+  return string.ascii_uppercase.index(column)
 
 def main():
     # File to extract from without file extension
